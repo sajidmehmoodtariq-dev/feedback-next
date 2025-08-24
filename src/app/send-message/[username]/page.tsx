@@ -82,95 +82,93 @@ export default function SendMessage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
-            <div className="container mx-auto px-4 py-16">
-                <div className="max-w-2xl mx-auto">
-                    <div className="bg-white rounded-lg shadow-xl p-8">
-                        <div className="text-center mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                                Send Anonymous Message
-                            </h1>
-                            <p className="text-gray-600">
-                                Send a message to <span className="font-medium text-purple-600">@{username}</span>
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+            <div className="card p-8 w-full max-w-2xl hover-lift animate-fade-in">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold text-foreground mb-2">
+                        Send Anonymous Message
+                    </h1>
+                    <p className="text-muted-foreground">
+                        Send a message to <span className="font-medium text-primary">@{username}</span>
+                    </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                            Your Message
+                        </label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows={6}
+                            value={message}
+                            onChange={handleMessageChange}
+                            className="w-full"
+                            placeholder="Type your anonymous message here..."
+                        />
+                        <div className="flex justify-between items-center mt-2">
+                            <p className="text-xs text-muted-foreground">
+                                Minimum 10 characters required
+                            </p>
+                            <p className={`text-xs ${
+                                messageLength > MAX_LENGTH * 0.9 ? 'text-destructive' : 'text-muted-foreground'
+                            }`}>
+                                {messageLength}/{MAX_LENGTH}
                             </p>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Your Message
-                                </label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    rows={6}
-                                    value={message}
-                                    onChange={handleMessageChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
-                                    placeholder="Type your anonymous message here..."
-                                />
-                                <div className="flex justify-between items-center mt-2">
-                                    <p className="text-xs text-gray-500">
-                                        Minimum 10 characters required
-                                    </p>
-                                    <p className={`text-xs ${
-                                        messageLength > MAX_LENGTH * 0.9 ? 'text-red-600' : 'text-gray-500'
-                                    }`}>
-                                        {messageLength}/{MAX_LENGTH}
-                                    </p>
-                                </div>
-
-                                {/* AI Assistant */}
-                                <AIMessageAssistant
-                                    message={message}
-                                    onMessageUpdate={handleAIMessageUpdate}
-                                    disabled={isLoading}
-                                />
-                            </div>
-
-                            {feedback && (
-                                <div className={`p-3 rounded-lg text-sm ${
-                                    feedback.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                                }`}>
-                                    {feedback}
-                                </div>
-                            )}
-
-                            <button
-                                type="submit"
-                                disabled={isLoading || message.trim().length < 10}
-                                className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                            >
-                                {isLoading ? 'Sending...' : 'Send Anonymous Message'}
-                            </button>
-                        </form>
-
-                        <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                            <h3 className="text-sm font-medium text-blue-900 mb-2">Privacy & AI Notice</h3>
-                            <ul className="text-xs text-blue-800 space-y-1">
-                                <li>• Your message will be sent anonymously</li>
-                                <li>• We do not store any identifying information about you</li>
-                                <li>• AI assistance is optional and helps improve message clarity</li>
-                                <li>• Please be respectful and constructive in your feedback</li>
-                                <li>• Harmful or inappropriate messages may be reported</li>
-                            </ul>
-                        </div>
-
-                        <div className="mt-6 text-center">
-                            <Link href="/" className="text-gray-500 hover:text-gray-700 text-sm">
-                                ← Back to home
-                            </Link>
-                        </div>
+                        {/* AI Assistant */}
+                        <AIMessageAssistant
+                            message={message}
+                            onMessageUpdate={handleAIMessageUpdate}
+                            disabled={isLoading}
+                        />
                     </div>
 
-                    <div className="mt-8 text-center">
-                        <p className="text-white text-sm">
-                            Want to receive anonymous messages too?{' '}
-                            <Link href="/sign-up" className="underline hover:no-underline">
-                                Create your account
-                            </Link>
-                        </p>
-                    </div>
+                    {feedback && (
+                        <div className={`p-4 rounded-xl text-sm animate-fade-in ${
+                            feedback.includes('successfully')
+                                ? 'bg-success/10 text-success border border-success/20'
+                                : 'bg-destructive/10 text-destructive border border-destructive/20'
+                        }`}>
+                            {feedback}
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={isLoading || message.trim().length < 10}
+                        className="btn-primary w-full py-3 px-4 rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                    >
+                        {isLoading ? 'Sending...' : 'Send Anonymous Message'}
+                    </button>
+                </form>
+
+                <div className="mt-8 p-4 rounded-lg bg-muted">
+                    <h3 className="text-sm font-medium text-foreground mb-2">Privacy & AI Notice</h3>
+                    <ul className="text-xs text-muted-foreground space-y-1">
+                        <li>• Your message will be sent anonymously</li>
+                        <li>• We do not store any identifying information about you</li>
+                        <li>• AI assistance is optional and helps improve message clarity</li>
+                        <li>• Please be respectful and constructive in your feedback</li>
+                        <li>• Harmful or inappropriate messages may be reported</li>
+                    </ul>
+                </div>
+
+                <div className="mt-6 text-center">
+                    <Link href="/" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
+                        ← Back to home
+                    </Link>
+                </div>
+
+                <div className="mt-8 text-center">
+                    <p className="text-muted-foreground text-sm">
+                        Want to receive anonymous messages too?{' '}
+                        <Link href="/sign-up" className="text-primary hover:text-primary/80 font-medium transition-colors">
+                            Create your account
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>
